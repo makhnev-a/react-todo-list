@@ -1,13 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class TodoListFooter extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.props = {};
-        this.props.filterValue = props.filterValue;
-    }
-
     render = () => {
         let classForAll = this.props.filterValue === "All" ? "filter-active" : "";
         let classForCompleted = this.props.filterValue === "Completed" ? "filter-active" : "";
@@ -22,5 +16,9 @@ class TodoListFooter extends React.Component {
         );
     }
 }
+
+TodoListFooter.propTypes = {
+    filterValue: PropTypes.string
+};
 
 export default TodoListFooter;

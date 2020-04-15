@@ -4,6 +4,11 @@ import TodoListFooter from "./TodoListFooter";
 import './App.css';
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.newTaskTitleRef = React.createRef();
+    }
+
     state = {
         tasks: [
             {title: "CSS", isDone: true, priority: "low"},
@@ -13,11 +18,6 @@ class App extends React.Component {
         ],
         filterValue: 'Completed'
     };
-
-    constructor(props) {
-        super(props);
-        this.newTaskTitleRef = React.createRef();
-    }
 
     onAddTaskClick = () => {
         setTimeout(() => {
@@ -38,7 +38,11 @@ class App extends React.Component {
                     <div className="todoList-header">
                         <h3 className="todoList-header__title">What to Learn</h3>
                         <div className="todoList-newTaskForm">
-                            <input ref={this.newTaskTitleRef} type="text" placeholder="New task name"/>
+                            <input
+                                ref={this.newTaskTitleRef}
+                                type="text"
+                                placeholder="New task name"
+                            />
                             <button onClick={this.onAddTaskClick}>Add</button>
                         </div>
                     </div>
