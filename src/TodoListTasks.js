@@ -22,7 +22,11 @@ class TodoListTasks extends React.Component {
 }
 
 TodoListTask.propTypes = {
-    tasks: PropTypes.array
+    tasks: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string,
+        isDone: PropTypes.bool,
+        priority: PropTypes.string
+    }))
 };
 
 export default TodoListTasks;
