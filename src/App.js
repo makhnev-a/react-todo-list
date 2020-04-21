@@ -40,6 +40,18 @@ class App extends React.Component {
         })
     };
 
+    tasksFilter = () => {
+        return this.state.tasks.filter((t) => {
+            if (this.state.filterValue === 'All') {
+                return true;
+            } else if (this.state.filterValue === 'Completed') {
+                return t.isDone === true;
+            } else if (this.state.filterValue === 'Active') {
+                return t.isDone === false;
+            }
+        });
+    };
+
     render = () => {
         return (
             <div className="App">
@@ -49,15 +61,7 @@ class App extends React.Component {
                     />
                     <TodoListTasks
                         changeStatus={this.changeStatus}
-                        tasks={this.state.tasks.filter(t => {
-                            if (this.state.filterValue === 'All') {
-                                return true;
-                            } else if (this.state.filterValue === 'Completed') {
-                                return t.isDone === true;
-                            } else if (this.state.filterValue === 'Active') {
-                                return t.isDone === false;
-                            }
-                        })}
+                        tasks={this.tasksFilter()}
                     />
                     <TodoListFooter
                         changeFilter={this.changeFilter}
