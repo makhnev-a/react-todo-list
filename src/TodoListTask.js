@@ -9,8 +9,10 @@ class TodoListTask extends React.Component {
     };
 
     render = () => {
+        let taskClass = this.props.task.isDone ? 'todoList-task done' : 'todoList-task';
+
         return (
-            <div className="todoList-task">
+            <div className={taskClass}>
                 <input
                     type="checkbox"
                     defaultChecked={this.props.task.isDone}

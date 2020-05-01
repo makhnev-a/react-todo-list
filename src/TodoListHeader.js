@@ -1,19 +1,41 @@
 import React from 'react';
 
 class TodoListHeader extends React.Component {
-    constructor(props) {
-        super(props);
-        this.newTaskTitleRef = React.createRef();
-    }
+    state = {
+        error: false,
+        title: ''
+    };
 
     onAddTaskClick = () => {
-        let newText = this.newTaskTitleRef.current.value;
+        let newText = this.state.title.trim();
 
-        this.newTaskTitleRef.current.value = '';
-        this.props.onAddTaskClick(newText);
+        if (newText === "") {
+            this.setState({error: true});
+        } else {
+            this.props.onAddTaskClick(newText);
+            this.setState({
+                error: false,
+                title: ''
+            });
+        }
+    };
+
+    onAddTaskEnter = (event) => {
+        if (event.key === 'Enter') {
+            this.onAddTaskClick();
+        }
+    };
+
+    onTitleChanged = (event) => {
+        this.setState({
+            error: false,
+            title: event.currentTarget.value
+        })
     };
 
     render = (props) => {
+        let classInput = this.state.error ? 'error' : "";
+
         return (
             <div className="todoList-header">
                 <h3 className="todoList-header__title">What to Learn</h3>
@@ -21,7 +43,11 @@ class TodoListHeader extends React.Component {
                     <input
                         type="text"
                         placeholder="New task name"
+                        value={this.state.title}
                         ref={this.newTaskTitleRef}
+                        className={classInput}
+                        onChange={this.onTitleChanged}
+                        onKeyPress={this.onAddTaskEnter}
                     />
                     <button
                         onClick={this.onAddTaskClick}
