@@ -6,12 +6,7 @@ import './App.css';
 
 class App extends React.Component {
     state = {
-        tasks: [
-            // {id: 0, title: "CSS", isDone: true, priority: "low"},
-            // {id: 1, title: "JS", isDone: false, priority: "high"},
-            // {id: 2, title: "ReactJS", isDone: false, priority: "high"},
-            // {id: 3, title: "Patterns", isDone: true, priority: "low"}
-        ],
+        tasks: [],
         filterValue: 'All'
     };
 
