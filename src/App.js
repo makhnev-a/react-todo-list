@@ -7,31 +7,73 @@ import './App.css';
 class App extends React.Component {
     state = {
         tasks: [
-            {title: "CSS", isDone: true, priority: "low"},
-            {title: "JS", isDone: false, priority: "high"},
-            {title: "ReactJS", isDone: false, priority: "high"},
-            {title: "Patterns", isDone: true, priority: "low"}
+            // {id: 0, title: "CSS", isDone: true, priority: "low"},
+            // {id: 1, title: "JS", isDone: false, priority: "high"},
+            // {id: 2, title: "ReactJS", isDone: false, priority: "high"},
+            // {id: 3, title: "Patterns", isDone: true, priority: "low"}
         ],
         filterValue: 'All'
     };
 
-    changeStatus = (task, isDone) => {
+    nextTaskId = 0;
+
+    saveState = () => {
+        let stateAsString = JSON.stringify(this.state);
+
+        localStorage.setItem('our-state', stateAsString);
+    };
+
+    restoreState = () => {
+        let state = {
+            tasks: [],
+            filterValue: 'All'
+        };
+
+        let stateAsString = localStorage.getItem('our-state');
+
+        if (stateAsString != null) {
+            state = JSON.parse(stateAsString);
+        }
+
+        this.setState(state, () => {
+            this.state.tasks.forEach(task => {
+                if (task.id >= this.nextTaskId) {
+                    this.nextTaskId = task.id + 1;
+                }
+            })
+        });
+    };
+
+    componentDidMount() {
+        this.restoreState();
+    }
+
+    changeTask = (taskId, obj) => {
         let newTasks = this.state.tasks.map(t => {
-            if (t === task) {
-                return {...t, isDone: isDone};
+            if (t.id === taskId) {
+                return {...t, ...obj};
             }
 
             return t;
         });
 
-        this.setState({tasks: newTasks});
+        this.setState({tasks: newTasks}, this.saveState);
+    };
+
+    changeStatus = (taskId, isDone) => {
+        this.changeTask(taskId, {isDone})
+    };
+
+    changeTitle = (taskId, title) => {
+        this.changeTask(taskId, {title})
     };
 
     addTask = (newText) => {
-        let newTask = {title: newText, isDone: false, priority: 'low'};
+        let newTask = {title: newText, isDone: false, priority: 'low', id: this.nextTaskId};
         let newTasks = [...this.state.tasks, newTask];
 
-        this.setState({tasks: newTasks});
+        this.nextTaskId++;
+        this.setState({tasks: newTasks}, this.saveState);
     };
 
     changeFilter = (newFilterValue) => {
@@ -61,6 +103,7 @@ class App extends React.Component {
                     />
                     <TodoListTasks
                         changeStatus={this.changeStatus}
+                        changeTitle={this.changeTitle}
                         tasks={this.tasksFilter()}
                     />
                     <TodoListFooter
