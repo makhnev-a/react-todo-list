@@ -1,114 +1,67 @@
 import React from 'react';
-import TodoListTasks from "./TodoListTasks";
-import TodoListFooter from "./TodoListFooter";
-import TodoListHeader from "./TodoListHeader";
 import './App.css';
+import TodoList from "./TodoList";
+import AddNewItemForm from "./AddNewItemForm";
 
 class App extends React.Component {
     state = {
-        tasks: [],
-        filterValue: 'All'
+        todoLists: []
     };
 
-    nextTaskId = 0;
+    nextTodoId = 0;
 
     saveState = () => {
         let stateAsString = JSON.stringify(this.state);
-
-        localStorage.setItem('our-state', stateAsString);
+        localStorage.setItem('todolists', stateAsString);
     };
 
     restoreState = () => {
         let state = {
-            tasks: [],
-            filterValue: 'All'
+            todoLists: []
         };
 
-        let stateAsString = localStorage.getItem('our-state');
+        let stateAsString = localStorage.getItem('todolists');
 
-        if (stateAsString != null) {
+        if (stateAsString) {
             state = JSON.parse(stateAsString);
         }
 
         this.setState(state, () => {
-            this.state.tasks.forEach(task => {
-                if (task.id >= this.nextTaskId) {
-                    this.nextTaskId = task.id + 1;
+            this.state.todoLists.forEach(todo => {
+                if (todo.id >= this.nextTodoId) {
+                    this.nextTodoId = todo.id + 1;
                 }
             })
         });
+    };
+
+    addTodoList = (newText) => {
+        let newTodo = {id: this.nextTodoId, title: newText};
+        let newTodos = [...this.state.todoLists, newTodo];
+
+        this.nextTodoId++;
+        this.setState({todoLists: newTodos}, this.saveState);
     };
 
     componentDidMount() {
         this.restoreState();
     }
 
-    changeTask = (taskId, obj) => {
-        let newTasks = this.state.tasks.map(t => {
-            if (t.id === taskId) {
-                return {...t, ...obj};
-            }
-
-            return t;
-        });
-
-        this.setState({tasks: newTasks}, this.saveState);
-    };
-
-    changeStatus = (taskId, isDone) => {
-        this.changeTask(taskId, {isDone})
-    };
-
-    changeTitle = (taskId, title) => {
-        this.changeTask(taskId, {title})
-    };
-
-    addTask = (newText) => {
-        let newTask = {title: newText, isDone: false, priority: 'low', id: this.nextTaskId};
-        let newTasks = [...this.state.tasks, newTask];
-
-        this.nextTaskId++;
-        this.setState({tasks: newTasks}, this.saveState);
-    };
-
-    changeFilter = (newFilterValue) => {
-        this.setState({
-            filterValue: newFilterValue
-        })
-    };
-
-    tasksFilter = () => {
-        return this.state.tasks.filter((t) => {
-            if (this.state.filterValue === 'All') {
-                return true;
-            } else if (this.state.filterValue === 'Completed') {
-                return t.isDone === true;
-            } else if (this.state.filterValue === 'Active') {
-                return t.isDone === false;
-            }
-        });
-    };
-
     render = () => {
+        let todolists = this.state.todoLists.map((tl, index) =>
+            <TodoList key={index} id={tl.id} title={tl.title}/>);
+
         return (
-            <div className="App">
-                <div className="todoList">
-                    <TodoListHeader
-                        onAddTaskClick={this.addTask}
-                    />
-                    <TodoListTasks
-                        changeStatus={this.changeStatus}
-                        changeTitle={this.changeTitle}
-                        tasks={this.tasksFilter()}
-                    />
-                    <TodoListFooter
-                        changeFilter={this.changeFilter}
-                        filterValue={this.state.filterValue}
-                    />
+            <>
+                <div>
+                    <AddNewItemForm addItem={this.addTodoList}/>
                 </div>
-            </div>
+                <div className={'App'}>
+                    {todolists}
+                </div>
+            </>
         );
-    }
+    };
 }
 
 export default App;
