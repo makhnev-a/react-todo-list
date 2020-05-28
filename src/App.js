@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import TodoList from "./TodoList";
 import AddNewItemForm from "./AddNewItemForm";
+import {connect} from "react-redux";
 
 class App extends React.Component {
     state = {
@@ -35,12 +36,18 @@ class App extends React.Component {
         });
     };
 
-    addTodoList = (newText) => {
-        let newTodo = {id: this.nextTodoId, title: newText};
-        let newTodos = [...this.state.todoLists, newTodo];
+    addTodoList = (title) => {
+        let newTodoList = {
+            id: 4,
+            title: title
+        };
 
-        this.nextTodoId++;
-        this.setState({todoLists: newTodos}, this.saveState);
+        this.props.createTodoList(newTodoList);
+        // let newTodo = {id: this.nextTodoId, title: newText};
+        // let newTodos = [...this.state.todoLists, newTodo];
+        //
+        // this.nextTodoId++;
+        // this.setState({todoLists: newTodos}, this.saveState);
     };
 
     componentDidMount() {
@@ -48,8 +55,14 @@ class App extends React.Component {
     }
 
     render = () => {
-        let todolists = this.state.todoLists.map((tl, index) =>
-            <TodoList key={index} id={tl.id} title={tl.title}/>);
+        let todolists = this.props.todoLists.map((tl, index) =>
+            <TodoList
+                key={index}
+                id={tl.id}
+                title={tl.title}
+                tasks={tl.tasks}
+            />
+        );
 
         return (
             <>
@@ -64,4 +77,21 @@ class App extends React.Component {
     };
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        todoLists: state.todoLists
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createTodoList: (newTodoList) => {
+            let action = {type: 'CREATE_TODOLIST', newTodoList};
+            dispatch(action);
+        }
+    }
+}
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default ConnectedApp;
