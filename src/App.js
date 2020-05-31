@@ -39,7 +39,8 @@ class App extends React.Component {
     addTodoList = (title) => {
         let newTodoList = {
             id: 4,
-            title: title
+            title: title,
+            tasks: []
         };
 
         this.props.createTodoList(newTodoList);
