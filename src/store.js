@@ -59,6 +59,11 @@ const reducer = (state = initialState, action) => {
                     }
                 })
             };
+        case 'REMOVE_TASK_BY_ID':
+            return {
+                ...state,
+                todoLists: state.todoLists.filter(el => el.id !== action.todoListId)
+            };
         default:
             return state;
 

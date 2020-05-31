@@ -67,12 +67,18 @@ class TodoList extends React.Component {
     };
 
     addItem = (newText) => {
-        let newTask = {title: newText, isDone: false, priority: 'low', id: this.nextTaskId};
-        // let newTasks = [...this.state.tasks, newTask];
+        let newTask = {
+            title: newText,
+            isDone: false,
+            priority: 'low',
+            id: this.nextTaskId
+        };
 
         this.props.addTask(this.props.id, newTask);
-        // this.nextTaskId++;
-        // this.setState({tasks: newTasks}, this.saveState);
+    };
+
+    removeTask = () => {
+        this.props.removeTask(this.props.id);
     };
 
     changeFilter = (newFilterValue) => {
@@ -98,7 +104,10 @@ class TodoList extends React.Component {
             <div className="App">
                 <div className="todoList">
                     <div className={'todoList-header'}>
-                        <TodoListTitle title={this.props.title}/>
+                        <TodoListTitle
+                            title={this.props.title}
+                            removeTask={this.removeTask}
+                        />
                         <AddNewItemForm addItem={this.addItem}/>
                     </div>
                     <TodoListTasks
@@ -134,6 +143,14 @@ const mapDispatchToProps = (dispatch) => {
 
             dispatch(action);
         },
+        removeTask: (todoListId) => {
+            let action = {
+                type: 'REMOVE_TASK_BY_ID',
+                todoListId
+            };
+
+            dispatch(action);
+        }
     }
 }
 
