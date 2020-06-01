@@ -44,11 +44,6 @@ class App extends React.Component {
         };
 
         this.props.createTodoList(newTodoList);
-        // let newTodo = {id: this.nextTodoId, title: newText};
-        // let newTodos = [...this.state.todoLists, newTodo];
-        //
-        // this.nextTodoId++;
-        // this.setState({todoLists: newTodos}, this.saveState);
     };
 
     componentDidMount() {

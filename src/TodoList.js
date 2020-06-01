@@ -47,15 +47,6 @@ class TodoList extends React.Component {
 
     changeTask = (taskId, obj) => {
         this.props.changeTask(this.props.id, taskId, obj);
-        // let newTasks = this.state.tasks.map(t => {
-        //     if (t.id === taskId) {
-        //         return {...t, ...obj};
-        //     }
-        //
-        //     return t;
-        // });
-        //
-        // this.setState({tasks: newTasks}, this.saveState);
     };
 
     changeStatus = (taskId, isDone) => {
