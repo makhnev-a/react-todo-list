@@ -59,10 +59,24 @@ const reducer = (state = initialState, action) => {
                     }
                 })
             };
-        case 'REMOVE_TASK_BY_ID':
+        case 'REMOVE_TODOLIST_BY_ID':
             return {
                 ...state,
                 todoLists: state.todoLists.filter(el => el.id !== action.todoListId)
+            };
+        case 'REMOVE_TASK_BY_ID':
+            return {
+                ...state,
+                todoLists: state.todoLists.map((todoList) => {
+                    if (todoList.id === action.todoListId) {
+                        return {
+                            ...todoList,
+                            tasks: todoList.tasks.filter((task) => task.id !== action.taskId)
+                        };
+                    } else {
+                        return todoList;
+                    }
+                })
             };
         default:
             return state;

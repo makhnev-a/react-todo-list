@@ -2,7 +2,7 @@ import React from 'react';
 
 class TodoListTitle extends React.Component {
     onRemoveList = () => {
-        this.props.removeTask();
+        this.props.removeTodoListById();
     };
 
     render = (props) => {

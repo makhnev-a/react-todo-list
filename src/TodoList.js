@@ -68,8 +68,12 @@ class TodoList extends React.Component {
         this.props.addTask(this.props.id, newTask);
     };
 
-    removeTask = () => {
-        this.props.removeTask(this.props.id);
+    removeTodoListById = () => {
+        this.props.removeTodoListById(this.props.id);
+    };
+
+    removeTaskById = (todoListId, taskId) => {
+        this.props.removeTaskById(todoListId, taskId);
     };
 
     changeFilter = (newFilterValue) => {
@@ -97,14 +101,16 @@ class TodoList extends React.Component {
                     <div className={'todoList-header'}>
                         <TodoListTitle
                             title={this.props.title}
-                            removeTask={this.removeTask}
+                            removeTodoListById={this.removeTodoListById}
                         />
                         <AddNewItemForm addItem={this.addItem}/>
                     </div>
                     <TodoListTasks
+                        removeTaskById={this.removeTaskById}
                         changeStatus={this.changeStatus}
                         changeTitle={this.changeTitle}
                         tasks={this.tasksFilter()}
+                        todoListId={this.props.id}
                     />
                     <TodoListFooter
                         changeFilter={this.changeFilter}
@@ -134,10 +140,19 @@ const mapDispatchToProps = (dispatch) => {
 
             dispatch(action);
         },
-        removeTask: (todoListId) => {
+        removeTodoListById: (todoListId) => {
+            let action = {
+                type: 'REMOVE_TODOLIST_BY_ID',
+                todoListId
+            };
+
+            dispatch(action);
+        },
+        removeTaskById: (todoListId, taskId) => {
             let action = {
                 type: 'REMOVE_TASK_BY_ID',
-                todoListId
+                todoListId,
+                taskId
             };
 
             dispatch(action);
