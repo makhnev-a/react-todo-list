@@ -50,7 +50,8 @@ export const reducer = (state = initialState, action) => {
                     if (todo.id !== action.todoListId) {
                         return todo;
                     } else {
-                        return {...todo, tasks: todo.tasks.map((task) => {
+                        return {
+                            ...todo, tasks: todo.tasks.map((task) => {
                                 if (task.id !== action.taskId) {
                                     return task;
                                 } else {
@@ -59,7 +60,8 @@ export const reducer = (state = initialState, action) => {
                                         ...action.obj
                                     };
                                 }
-                            })};
+                            })
+                        };
                     }
                 })
             };
@@ -85,4 +87,43 @@ export const reducer = (state = initialState, action) => {
         default:
             return state;
     }
+};
+
+export const addTaskAc = (todoListId, newTask) => {
+    return {
+        type: ADD_TASK,
+        todoListId,
+        newTask
+    };
+};
+
+export const changeTaskAc = (todoListId, taskId, obj) => {
+    return {
+        type: CHANGE_TASK,
+        todoListId,
+        taskId,
+        obj
+    };
+};
+
+export const removeTodoListByIdAc = (todoListId) => {
+    return {
+        type: REMOVE_TODOLIST_BY_ID,
+        todoListId
+    }
+};
+
+export const removeTaskById = (todoListId, taskId) => {
+    return {
+        type: REMOVE_TASK_BY_ID,
+        todoListId,
+        taskId
+    };
+};
+
+export const createTodoListAc = (newTodoList) => {
+    return {
+        type: CREATE_TODOLIST,
+        newTodoList
+    };
 };

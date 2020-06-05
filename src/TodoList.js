@@ -5,8 +5,7 @@ import AddNewItemForm from "./AddNewItemForm";
 import './App.css';
 import TodoListTitle from "./TodoListTitle";
 import {connect} from "react-redux";
-import {ADD_TASK, CHANGE_TASK, REMOVE_TASK_BY_ID, REMOVE_TODOLIST_BY_ID} from "./reduser";
-import {addTaskAc, changeTaskAc, removeTaskById, removeTodoListByIdAc} from "./store";
+import {addTaskAc, changeTaskAc, removeTaskById, removeTodoListByIdAc} from "./reduser";
 
 class TodoList extends React.Component {
     state = {
