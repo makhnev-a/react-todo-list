@@ -4,6 +4,7 @@ import TodoList from "./TodoList";
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
 import {CREATE_TODOLIST} from "./reduser";
+import {createTodoListAc} from "./store";
 
 class App extends React.Component {
     addTodoList = (title) => {
@@ -48,7 +49,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         createTodoList: (newTodoList) => {
-            dispatch({type: CREATE_TODOLIST, newTodoList});
+            dispatch(createTodoListAc(newTodoList));
         }
     }
 }

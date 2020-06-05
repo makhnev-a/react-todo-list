@@ -6,6 +6,7 @@ import './App.css';
 import TodoListTitle from "./TodoListTitle";
 import {connect} from "react-redux";
 import {ADD_TASK, CHANGE_TASK, REMOVE_TASK_BY_ID, REMOVE_TODOLIST_BY_ID} from "./reduser";
+import {addTaskAc, changeTaskAc, removeTaskById, removeTodoListByIdAc} from "./store";
 
 class TodoList extends React.Component {
     state = {
@@ -94,16 +95,16 @@ class TodoList extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         addTask: (todoListId, newTask) => {
-            dispatch({type: ADD_TASK, todoListId, newTask});
+            dispatch(addTaskAc(todoListId, newTask));
         },
         changeTask: (todoListId, taskId, obj) => {
-            dispatch({type: CHANGE_TASK, todoListId, taskId, obj});
+            dispatch(changeTaskAc(todoListId, taskId, obj));
         },
         removeTodoListById: (todoListId) => {
-            dispatch({type: REMOVE_TODOLIST_BY_ID, todoListId});
+            dispatch(removeTodoListByIdAc(todoListId));
         },
         removeTaskById: (todoListId, taskId) => {
-            dispatch({type: REMOVE_TASK_BY_ID, todoListId, taskId});
+            dispatch(removeTaskById(todoListId, taskId));
         }
     }
 }
